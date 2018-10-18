@@ -9,7 +9,7 @@ const db = _firebaseAdmin2.default.firestore();
 const router = (0, _express.Router)();
 router.get('/', (() => {var _ref = (0, _asyncToGenerator3.default)(function* (req, res, next) {
         try {
-            const noteSnapshot = yield db.collection('notes').get();
+            const noteSnapshot = yield db.collection('posts').get();
             const notes = [];
             noteSnapshot.forEach(function (doc) {
                 notes.push({
@@ -27,7 +27,7 @@ router.get('/:id', (() => {var _ref2 = (0, _asyncToGenerator3.default)(function*
         try {
             const id = req.params.id;
             if (!id) throw new Error('id is blank');
-            const note = yield db.collection('notes').doc(id).get();
+            const note = yield db.collection('user-posts').doc(id).get();
             if (!note.exists) {
                 throw new Error('note does not exists');
             }
@@ -45,7 +45,7 @@ router.post('/', (() => {var _ref3 = (0, _asyncToGenerator3.default)(function* (
             const text = req.body.text;
             if (!text) throw new Error('Text is blank');
             const data = { text };
-            const ref = yield db.collection('notes').add(data);
+            const ref = yield db.collection('posts').add(data);
             res.json({
                 id: ref.id,
                 data });
@@ -62,7 +62,7 @@ router.put('/:id', (() => {var _ref4 = (0, _asyncToGenerator3.default)(function*
             if (!id) throw new Error('id is blank');
             if (!text) throw new Error('Text is blank');
             const data = { text };
-            const ref = yield db.collection('notes').doc(id).set(data, { merge: true });
+            const ref = yield db.collection('posts').doc(id).set(data, { merge: true });
             res.json({
                 id,
                 data });
@@ -76,7 +76,7 @@ router.delete('/:id', (() => {var _ref5 = (0, _asyncToGenerator3.default)(functi
         try {
             const id = req.params.id;
             if (!id) throw new Error('id is blank');
-            yield db.collection('notes').doc(id).delete();
+            yield db.collection('posts').doc(id).delete();
             res.json({
                 id });
 
